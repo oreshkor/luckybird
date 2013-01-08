@@ -14,8 +14,8 @@ namespace luckybird
             Guard.Against(string.IsNullOrWhiteSpace(headTitle), "headTitle");
             Guard.Against(lines == null, "lines");
 
-            this._headTitle = headTitle;
-            this._lines = lines.ToArray();
+            _headTitle = headTitle;
+            _lines = lines.ToArray();
 
             Guard.Against(_lines.Length == 0, "lines", "Parsed champ has no lines.");
         }
@@ -25,7 +25,7 @@ namespace luckybird
             get { return _headTitle; }
         }
 
-        public string ToString()
+        public override string ToString()
         {
             var builder = new StringBuilder();
 

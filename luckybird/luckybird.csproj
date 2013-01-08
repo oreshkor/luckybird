@@ -40,19 +40,17 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Event.cs" />
     <Compile Include="EventDescriptor.cs" />
+    <Compile Include="EventLine.cs" />
     <Compile Include="Guard.cs" />
+    <Compile Include="Guard_should.cs" />
     <Compile Include="Maraphone_parser_should.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SoccerEvent.cs" />
+    <Compile Include="SoccerChamp.cs" />
+    <Compile Include="SoccerPageParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="marafon.htm" />
