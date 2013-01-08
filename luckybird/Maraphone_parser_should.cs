@@ -1,53 +1,114 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
 
 namespace luckybird
 {
-    [TestFixture]
-    public class Champ_title_parsing_should
+    public class MaraphoneSoccerPageBuilder
     {
-        static IEnumerable<SoccerChamp> GetParsedChamps(string response)
-        {
-            var stream = new MemoryStream(Encoding.UTF8.GetBytes(response));
-            var parser = new SoccerPageParser();
+        string _champtTitle = "default champ title";
+        List<string> _events = new List<string>();
+        string _eventTypes;
 
-            return parser.ParsePage(stream).ToList();
+        public MaraphoneSoccerPageBuilder WithChamp(string title)
+        {
+            _champtTitle = title;
+            return this;
+        }
+        public MaraphoneSoccerPageBuilder WithTodayLine(string command1, string command2, params double[] coefficient)
+        {
+            _events.Add(CreateTodayLine(command1, command2, coefficient));
+            return this;
         }
 
-        [Test]
-        public void find_and_parse_champ_title()
+        string CreateTodayLine(string command1, string command2, double[] coefficient)
         {
-            var responsebody = @"<div class='main-block-events'>
-                                    <div class='block-events-head'>
-                                        Champ description place
-                                    </div>
-                                    <div class='foot-market-border'>
-                                         <table class='foot-market'> 
-                                            <tbody><tr><th class='coupone'><div class='markets-hint'>Event type</div></th></tr></tbody>
-                                            <tbody><tr class='event-header'>
+            const string template = @"<tr class='event-header'>
                                                         <td class='first'>
                                                             <table><tbody><tr>
                                                                 <td class='today-name'><span class='command'>
-                                                                    <div class='today-member-name'>Command 1</div>
-                                                                    <div class='today-member-name'>Command 2</div>
+                                                                    <div class='today-member-name'>{0}</div>
+                                                                    <div class='today-member-name'>{1}</div>
                                                                 </span></td>
                                                                 <td class='date'>15:00</td>
+                                                                {2}
                                                             </tr></tbody></table>
-                                                        </td>
-                                                        <td class='js-price'>
-                                                            <span class='selection-link'>1111.1111</span>
-                                                        </td>
-                                                    </tr>
+                                                        </td></tr>";
+
+            const string coeffTemplate = @"<td class='js-price'><span class='selection-link'>{0}</span></td>";
+
+            var renderedCoefficients = ConactenatePeaces(coefficient.Select(d => string.Format(coeffTemplate, d)));
+
+            return string.Format(template, command1, command2, renderedCoefficients);
+        }
+
+        public MaraphoneSoccerPageBuilder ExpectedEvents(params string[] eventtypes)
+        {
+            _eventTypes = FormatEventTypes(eventtypes);
+
+            return this;
+        }
+
+        private string FormatEventTypes(string[] eventtypes)
+        {
+            const string template = "<th class='coupone'><div class='markets-hint'>{0}</div></th>";
+
+            return ConactenatePeaces(eventtypes.Select(e => string.Format(template, e)));
+        }
+
+        static string ConactenatePeaces(IEnumerable<string> peaces)
+        {
+            return string.Join("", peaces.ToArray());
+
+        }
+
+        public SoccerChamp Build()
+        {
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes(BuildResponce()));
+            var parser = new SoccerPageParser();
+
+            return parser.ParsePage(stream).First();
+        }
+
+        private string BuildResponce()
+        {
+            if (_events.Count == 0)
+                WithTodayLine("Command 1", "Command 2", 1111.1111);
+            if (_eventTypes == null)
+                ExpectedEvents("default event type");
+
+            return string.Format(@"<div class='main-block-events'>
+                                    <div class='block-events-head'>
+                                        {0}
+                                    </div>
+                                    <div class='foot-market-border'>
+                                         <table class='foot-market'> 
+                                            <tbody><tr>{1}</tr></tbody>
+                                            <tbody>
+                                                {2}
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>";
+                                </div>",
+                                _champtTitle,
+                                _eventTypes,
+                                ConactenatePeaces(_events)
 
-            var champ = GetParsedChamps(responsebody).FirstOrDefault();
+                         );
+        }
+    }
+    [TestFixture]
+    public class Champ_title_parsing_should
+    {
+        [Test]
+        public void find_and_parse_champ_title()
+        {
+            var pageBuilder = new MaraphoneSoccerPageBuilder().WithChamp("Champ description place");
+
+            var champ = pageBuilder.Build();
 
             Assert.NotNull(champ);
             Assert.AreEqual("Champ description place", champ.Title);
@@ -61,57 +122,47 @@ namespace luckybird
             var @event = line.Events.FirstOrDefault();
 
             Assert.AreEqual(1111.1111, @event.Coefficient);
-            Assert.AreEqual(string.Empty,  @event.Specification);
-            Assert.AreEqual("Event type", @event.Type);
+            Assert.AreEqual(string.Empty, @event.Specification);
+            Assert.AreEqual("default event type", @event.Type);
         }
 
         [Test]
         public void tollerate_inner_nodes_with_text_and_skip_them()
         {
-            var responsebody = @"<div class='main-block-events'>
-                                    <div class='block-events-head'>
-                                        <a>Trash1</a>
-                                        Champ description place
-                                        <span>Trahs2</span>
-                                    </div>
-                                    <div class='foot-market-border'>
-                                         <table class='foot-market'> 
-                                            <tbody><tr><th class='coupone'><div class='markets-hint'>Event type</div></th></tr></tbody>
-                                            <tbody><tr class='event-header'>
-                                                        <td class='first'>
-                                                            <table><tbody><tr>
-                                                                <td class='today-name'><span class='command'>
-                                                                    <div class='today-member-name'>Command 1</div>
-                                                                    <div class='today-member-name'>Command 2</div>
-                                                                </span></td>
-                                                                <td class='date'>15:00</td>
-                                                            </tr></tbody></table>
-                                                        </td>
-                                                        <td class='js-price'>
-                                                            <span class='selection-link'>1111.1111</span>
-                                                        </td>
-                                                    </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>";
+            var pageBuilder = new MaraphoneSoccerPageBuilder().WithChamp("<a>href text</a> Champ description place <span>span text</span>");
 
-            var champ = GetParsedChamps(responsebody).FirstOrDefault();
+            var champ = pageBuilder.Build();
 
             Assert.NotNull(champ);
             Assert.AreEqual("Champ description place", champ.Title);
+        }
+    }
 
-            var line = champ.Lines.FirstOrDefault();
+    [TestFixture]
+    public class Line_parsing_should
+    {
+        [Test]
+        public void identify_today_lines_with_event()
+        {
+            var pageBuilder = new MaraphoneSoccerPageBuilder()
+                                    .ExpectedEvents("1", "2", "3", "4")
+                                    .WithTodayLine("c1", "c2", 1, 2, 3, 4);
 
-            Assert.NotNull(line);
-            Assert.AreEqual("Command 1-Command 2", line.Desciption.What);
-            Assert.AreEqual(DateTimeOffset.Parse("15:00"), line.Desciption.When);
+            var champ = pageBuilder.Build();
 
-            var @event = line.Events.FirstOrDefault();
+            var line = champ.Lines.First();
 
-            Assert.AreEqual(1111.1111, @event.Coefficient);
-            Assert.AreEqual(string.Empty,  @event.Specification);
-            Assert.AreEqual("Event type", @event.Type);
+            var expectedLine = new EventLine("c1-c2", DateTimeOffset.Parse("15:00"),
+                new[] 
+                {
+                    new Event("1", 1),
+                    new Event("2", 2),
+                    new Event("3", 3),
+                    new Event("4", 4),
+                });
+
+
+            Assert.IsTrue(line.IsSame(expectedLine), "actual line is differed from expected" );
         }
     }
 }

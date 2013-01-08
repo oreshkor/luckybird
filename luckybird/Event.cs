@@ -6,7 +6,7 @@
         public readonly double Coefficient;
         public readonly string Specification;
 
-        public Event(string type, double coefficient, string specification = null)
+        public Event(string type, double coefficient, string specification = "")
         {
             Guard.Against(string.IsNullOrWhiteSpace(type), "type");
             

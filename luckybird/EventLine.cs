@@ -32,6 +32,25 @@ namespace luckybird
             get { return _events; }
         }
 
+        public bool IsSame(EventLine line)
+        {
+            //TODO improve this code. Making appropriate "equals" methods in classes EventDescriptor & Event
+            Guard.Against(line == null, "line");
+
+            if (_events.Count() != line._events.Count())
+                return false;
+
+            for( var i = 0; i < _events.Length; ++i)
+            {
+                var l = _events[i];
+                var r = line._events[i];
+                if( l.Coefficient != r.Coefficient ||
+                    l.Specification != r.Specification || l.Type != r.Type)
+                    return false;
+            }
+
+            return _eventDescriptor.ToString() == line._eventDescriptor.ToString();
+        }
 
         public override string ToString()
         {
