@@ -2,74 +2,116 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using NUnit.Framework;
 
 namespace luckybird
 {
     [TestFixture]
-    public class Maraphone_parser_should
+    public class Champ_title_parsing_should
     {
-        static IEnumerable<SoccerChamp> GetParsedChamps()
+        static IEnumerable<SoccerChamp> GetParsedChamps(string response)
         {
-            var stream = File.OpenRead(Environment.CurrentDirectory + @"\marafon.htm");
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes(response));
             var parser = new SoccerPageParser();
 
             return parser.ParsePage(stream).ToList();
         }
 
         [Test]
-        public void parse_all_lines_withou_errors()
+        public void find_and_parse_champ_title()
         {
-            var champs = GetParsedChamps();
+            var responsebody = @"<div class='main-block-events'>
+                                    <div class='block-events-head'>
+                                        Champ description place
+                                    </div>
+                                    <div class='foot-market-border'>
+                                         <table class='foot-market'> 
+                                            <tbody><tr><th class='coupone'><div class='markets-hint'>Event type</div></th></tr></tbody>
+                                            <tbody><tr class='event-header'>
+                                                        <td class='first'>
+                                                            <table><tbody><tr>
+                                                                <td class='today-name'><span class='command'>
+                                                                    <div class='today-member-name'>Command 1</div>
+                                                                    <div class='today-member-name'>Command 2</div>
+                                                                </span></td>
+                                                                <td class='date'>15:00</td>
+                                                            </tr></tbody></table>
+                                                        </td>
+                                                        <td class='js-price'>
+                                                            <span class='selection-link'>1111.1111</span>
+                                                        </td>
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>";
 
+            var champ = GetParsedChamps(responsebody).FirstOrDefault();
 
-            Assert.That(1, Is.EqualTo(champs.Count()));
+            Assert.NotNull(champ);
+            Assert.AreEqual("Champ description place", champ.Title);
+
+            var line = champ.Lines.FirstOrDefault();
+
+            Assert.NotNull(line);
+            Assert.AreEqual("Command 1-Command 2", line.Desciption.What);
+            Assert.AreEqual(DateTimeOffset.Parse("15:00"), line.Desciption.When);
+
+            var @event = line.Events.FirstOrDefault();
+
+            Assert.AreEqual(1111.1111, @event.Coefficient);
+            Assert.AreEqual(string.Empty,  @event.Specification);
+            Assert.AreEqual("Event type", @event.Type);
         }
 
-        //[Test]
-        //public void parse_table_header()
-        //{
-        //    var champ = GetParsedChamps();
+        [Test]
+        public void tollerate_inner_nodes_with_text_and_skip_them()
+        {
+            var responsebody = @"<div class='main-block-events'>
+                                    <div class='block-events-head'>
+                                        <a>Trash1</a>
+                                        Champ description place
+                                        <span>Trahs2</span>
+                                    </div>
+                                    <div class='foot-market-border'>
+                                         <table class='foot-market'> 
+                                            <tbody><tr><th class='coupone'><div class='markets-hint'>Event type</div></th></tr></tbody>
+                                            <tbody><tr class='event-header'>
+                                                        <td class='first'>
+                                                            <table><tbody><tr>
+                                                                <td class='today-name'><span class='command'>
+                                                                    <div class='today-member-name'>Command 1</div>
+                                                                    <div class='today-member-name'>Command 2</div>
+                                                                </span></td>
+                                                                <td class='date'>15:00</td>
+                                                            </tr></tbody></table>
+                                                        </td>
+                                                        <td class='js-price'>
+                                                            <span class='selection-link'>1111.1111</span>
+                                                        </td>
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>";
 
-        //    CollectionAssert.AreEqual(new[] { "Win 1", "Draw", "Win 2", "Win 1 or Draw", "Win 1 or Win 2", "Draw or Win 2", "Handicap1", "Handicap2", "Total under", "Total over" }, );
+            var champ = GetParsedChamps(responsebody).FirstOrDefault();
 
-        //}
+            Assert.NotNull(champ);
+            Assert.AreEqual("Champ description place", champ.Title);
 
+            var line = champ.Lines.FirstOrDefault();
 
-        //[Test]
-        //public void parse_commands()
-        //{
-        //    var dom = GetParsedLines();
+            Assert.NotNull(line);
+            Assert.AreEqual("Command 1-Command 2", line.Desciption.What);
+            Assert.AreEqual(DateTimeOffset.Parse("15:00"), line.Desciption.When);
 
-        //    var tablebets = dom.Select("table.foot-market tr.event-header:first");
+            var @event = line.Events.FirstOrDefault();
 
-        //    Assert.AreEqual(1, tablebets.Length);
-
-        //    var commands = dom.Select("td.today-name > span.command > div.today-member-name", tablebets).Map(node => node.Cq().Text().Trim().Replace(nbsp, ' '));
-
-        //    Assert.AreEqual(2, commands.Count());
-
-        //    CollectionAssert.AreEqual(new[] { "Eupen", "Lommel United" }, commands);
-
-        //    var date = dom.Select("td.date", tablebets).Text().Trim();
-
-        //    CollectionAssert.AreEqual("19:00", date);
-
-        //}
-
-        //[Test]
-        //public void parse_bets()
-        //{
-        //    var dom = GetParsedLines();
-
-        //    var game = dom.Select("table.foot-market tr.event-header:first");
-
-        //    Assert.AreEqual(1, game.Length);
-
-        //    var bets = dom.Select("td.js-price > span.selection-link", game).Map(node => node.Cq().Text().Trim());
-
-        //    CollectionAssert.AreEqual(new[] { "2.20", "3.40", "3.40", "1.333", "1.333", "1.69", "1.60", "2.46", "2.00", "1.88" }, bets);
-
-        //}
+            Assert.AreEqual(1111.1111, @event.Coefficient);
+            Assert.AreEqual(string.Empty,  @event.Specification);
+            Assert.AreEqual("Event type", @event.Type);
+        }
     }
 }

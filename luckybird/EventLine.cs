@@ -5,7 +5,7 @@ using System.Text;
 
 namespace luckybird
 {
-    class EventLine
+    public class EventLine
     {
         readonly EventDescriptor _eventDescriptor;
         readonly Event[] _events;
@@ -21,6 +21,17 @@ namespace luckybird
 
             Guard.Against(_events.Length == 0, "events", "Line has zero event count.");
         }
+
+        public EventDescriptor Desciption
+        {
+            get { return _eventDescriptor; }
+        }
+
+        public IEnumerable<Event> Events
+        {
+            get { return _events; }
+        }
+
 
         public override string ToString()
         {

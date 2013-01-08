@@ -2,7 +2,7 @@
 
 namespace luckybird
 {
-    class EventDescriptor
+    public class EventDescriptor
     {
         readonly string _title;
         readonly DateTimeOffset _date;
@@ -11,6 +11,16 @@ namespace luckybird
         {
             _title = title;
             _date = date;
+        }
+
+        public string What
+        {
+            get { return _title; }
+        }
+
+        public DateTimeOffset When
+        {
+            get { return _date; }
         }
 
         public override string ToString()

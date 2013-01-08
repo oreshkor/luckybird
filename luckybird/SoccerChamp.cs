@@ -25,6 +25,11 @@ namespace luckybird
             get { return _headTitle; }
         }
 
+        public IEnumerable<EventLine> Lines
+        {
+            get { return _lines; }
+        }
+
         public override string ToString()
         {
             var builder = new StringBuilder();
