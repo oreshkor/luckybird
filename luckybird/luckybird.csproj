@@ -48,6 +48,7 @@
     <Compile Include="Guard.cs" />
     <Compile Include="Guard_should.cs" />
     <Compile Include="Maraphone_parser_should.cs" />
+    <Compile Include="PinnacleFeedParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoccerChamp.cs" />
     <Compile Include="SoccerPageParser.cs" />
@@ -55,6 +56,7 @@
   <ItemGroup>
     <Content Include="marafon.htm" />
     <Content Include="marafon_soccer_full.html" />
+    <Content Include="pinnacle.soccer.oneevent.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
