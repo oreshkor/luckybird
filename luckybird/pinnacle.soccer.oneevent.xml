@@ -1,6 +1,6 @@
 <rsp status="ok">
   <fd>
-    <fdTime>1357749476334</fdTime>
+    <fdTime>1357835529545</fdTime>
     <sports>
       <sport>
         <id>29</id>
@@ -30,71 +30,71 @@
                     <spreads>
                       <spread>
                         <awaySpread>0</awaySpread>
-                        <awayPrice>-123</awayPrice>
+                        <awayPrice>1.961</awayPrice>
                         <homeSpread>0</homeSpread>
-                        <homePrice>112</homePrice>
-                      </spread>
-                      <spread>
-                        <awaySpread>-0.5</awaySpread>
-                        <awayPrice>151</awayPrice>
-                        <homeSpread>0.5</homeSpread>
-                        <homePrice>-172</homePrice>
-                      </spread>
-                      <spread>
-                        <awaySpread>-0.25</awaySpread>
-                        <awayPrice>117</awayPrice>
-                        <homeSpread>0.25</homeSpread>
-                        <homePrice>-129</homePrice>
-                      </spread>
-                      <spread>
-                        <awaySpread>0.25</awaySpread>
-                        <awayPrice>-173</awayPrice>
-                        <homeSpread>-0.25</homeSpread>
-                        <homePrice>152</homePrice>
+                        <homePrice>1.961</homePrice>
                       </spread>
                       <spread>
                         <awaySpread>0.5</awaySpread>
-                        <awayPrice>-227</awayPrice>
+                        <awayPrice>1.497</awayPrice>
                         <homeSpread>-0.5</homeSpread>
-                        <homePrice>192</homePrice>
+                        <homePrice>2.73</homePrice>
+                      </spread>
+                      <spread>
+                        <awaySpread>0.25</awaySpread>
+                        <awayPrice>1.666</awayPrice>
+                        <homeSpread>-0.25</homeSpread>
+                        <homePrice>2.34</homePrice>
+                      </spread>
+                      <spread>
+                        <awaySpread>-0.25</awaySpread>
+                        <awayPrice>2.36</awayPrice>
+                        <homeSpread>0.25</homeSpread>
+                        <homePrice>1.657</homePrice>
+                      </spread>
+                      <spread>
+                        <awaySpread>-0.5</awaySpread>
+                        <awayPrice>2.75</awayPrice>
+                        <homeSpread>0.5</homeSpread>
+                        <homePrice>1.492</homePrice>
                       </spread>
                     </spreads>
                     <totals>
                       <total>
                         <points>2.5</points>
-                        <overPrice>-114</overPrice>
-                        <underPrice>102</underPrice>
+                        <overPrice>1.877</overPrice>
+                        <underPrice>2.02</underPrice>
                       </total>
                       <total>
                         <points>2</points>
-                        <overPrice>-253</overPrice>
-                        <underPrice>202</underPrice>
+                        <overPrice>1.395</overPrice>
+                        <underPrice>3.02</underPrice>
                       </total>
                       <total>
                         <points>2.25</points>
-                        <overPrice>-157</overPrice>
-                        <underPrice>135</underPrice>
+                        <overPrice>1.636</overPrice>
+                        <underPrice>2.35</underPrice>
                       </total>
                       <total>
                         <points>2.75</points>
-                        <overPrice>111</overPrice>
-                        <underPrice>-125</underPrice>
+                        <overPrice>2.11</overPrice>
+                        <underPrice>1.8</underPrice>
                       </total>
                       <total>
                         <points>3</points>
-                        <overPrice>148</overPrice>
-                        <underPrice>-174</underPrice>
+                        <overPrice>2.48</overPrice>
+                        <underPrice>1.574</underPrice>
                       </total>
                     </totals>
                     <moneyLine>
-                      <awayPrice>151</awayPrice>
-                      <homePrice>193</homePrice>
-                      <drawPrice>245</drawPrice>
+                      <awayPrice>2.74</awayPrice>
+                      <homePrice>2.74</homePrice>
+                      <drawPrice>3.34</drawPrice>
                     </moneyLine>
                     <maxBetAmount>
-                      <spread>1000</spread>
-                      <totalPoints>1000</totalPoints>
-                      <moneyLine>500</moneyLine>
+                      <spread>2000</spread>
+                      <totalPoints>2000</totalPoints>
+                      <moneyLine>1000</moneyLine>
                     </maxBetAmount>
                   </period>
                 </periods>
