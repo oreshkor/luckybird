@@ -7,9 +7,9 @@ namespace luckybird
         readonly string _title;
         readonly DateTimeOffset _date;
 
-        public EventDescriptor(DateTimeOffset date, string title)
+        public EventDescriptor(DateTimeOffset date, params string[] participatns)
         {
-            _title = title;
+            _title = string.Join("", participatns);
             _date = date;
         }
 
