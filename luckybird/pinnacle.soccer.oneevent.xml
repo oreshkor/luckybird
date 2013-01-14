@@ -15,11 +15,11 @@
                 <status>I</status>
                 <drawRotNum>6827</drawRotNum>
                 <homeTeam>
-                  <name>Jaguares de Chiapas</name>
+                  <name>HomeTeam</name>
                   <rotNum>6825</rotNum>
                 </homeTeam>
                 <awayTeam>
-                  <name>Club America</name>
+                  <name>AwayTeam</name>
                   <rotNum>6826</rotNum>
                 </awayTeam>
                 <periods>
@@ -29,9 +29,9 @@
                     <cutoffDateTime>2013-01-12T01:29:00Z</cutoffDateTime>
                     <spreads>
                       <spread>
-                        <awaySpread>0</awaySpread>
+                        <awaySpread>-1</awaySpread>
                         <awayPrice>1.961</awayPrice>
-                        <homeSpread>0</homeSpread>
+                        <homeSpread>1</homeSpread>
                         <homePrice>1.961</homePrice>
                       </spread>
                       <spread>
@@ -91,10 +91,52 @@
                       <homePrice>2.74</homePrice>
                       <drawPrice>3.34</drawPrice>
                     </moneyLine>
+                    <teamTotals>
+                      <homeTeamTotal>
+                        <total>1.25</total>
+                        <overPrice>1.806</overPrice>
+                        <underPrice>2.08</underPrice>
+                      </homeTeamTotal>
+                      <awayTeamTotal>
+                        <total>0.75</total>
+                        <overPrice>1.763</overPrice>
+                        <underPrice>2.13</underPrice>
+                      </awayTeamTotal>
+                    </teamTotals>
                     <maxBetAmount>
                       <spread>2000</spread>
                       <totalPoints>2000</totalPoints>
                       <moneyLine>1000</moneyLine>
+                      <teamTotals>500</teamTotals>
+                    </maxBetAmount>
+                  </period>
+                  <period>
+                    <number>1</number>
+                    <description>1st Half</description>
+                    <cutoffDateTime>2013-01-13T14:00:00Z</cutoffDateTime>
+                    <spreads>
+                      <spread>
+                        <awaySpread>0.75</awaySpread>
+                        <awayPrice>1.826</awayPrice>
+                        <homeSpread>-0.75</homeSpread>
+                        <homePrice>2.1</homePrice>
+                      </spread>
+                    </spreads>
+                    <totals>
+                      <total>
+                        <points>1.25</points>
+                        <overPrice>2.07</overPrice>
+                        <underPrice>1.833</underPrice>
+                      </total>
+                      <total>
+                        <points>2.25</points>
+                        <overPrice>2.07</overPrice>
+                        <underPrice>1.833</underPrice>
+                      </total>
+                    </totals>
+                    <maxBetAmount>
+                      <spread>1500</spread>
+                      <totalPoints>1500</totalPoints>
                     </maxBetAmount>
                   </period>
                 </periods>
