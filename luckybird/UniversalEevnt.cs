@@ -2,7 +2,7 @@
 
 namespace luckybird
 {
-    public class EventId : IEquatable<EventId>
+    public class EventName : IEquatable<EventName>
     {
         public readonly string Sport;
         public readonly string League;
@@ -14,7 +14,7 @@ namespace luckybird
         public readonly string BetSpecifiaction;
 
 
-        public bool Equals(EventId other)
+        public bool Equals(EventName other)
         {
             if (ReferenceEquals(other, null))
                 return false;
@@ -29,6 +29,9 @@ namespace luckybird
                    && (BetSpecifiaction == other.BetSpecifiaction);
         }
     }
+    
+
+    
 
     public struct Coefficient 
     {
@@ -40,18 +43,28 @@ namespace luckybird
             _value = value;
         }
     }
-
-    public class Bet
+    
+    public class SiteId
     {
-        public readonly DateTimeOffset DicoveredAt;
-        public readonly EventId Event;
-        public readonly Coefficient Coefficient;
+        
+    }
 
-        public Bet(DateTimeOffset dicoveredAt, Coefficient coefficient, EventId @event)
+    public class Event
+    {
+        readonly SiteId SiteId;
+        readonly DateTimeOffset DicoveredAt;
+        readonly Coefficient Coefficient;
+        readonly EventName _name;
+
+        public Event(DateTimeOffset dicoveredAt, Coefficient coefficient, EventName name, SiteId siteId)
         {
             DicoveredAt = dicoveredAt;
             Coefficient = coefficient;
-            Event = @event;
+            _name = name;
+            SiteId = siteId;
         }
+
     }
+
+    
 }

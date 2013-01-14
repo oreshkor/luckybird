@@ -8,9 +8,9 @@ namespace luckybird
     public class EventLine
     {
         readonly EventDescriptor _eventDescriptor;
-        readonly Event[] _events;
+        readonly MaraphoneEvent[] _events;
 
-        public EventLine(string title, DateTimeOffset whenHappen, IEnumerable<Event> events)
+        public EventLine(string title, DateTimeOffset whenHappen, IEnumerable<MaraphoneEvent> events)
         {
             Guard.Against(string.IsNullOrWhiteSpace(title), "title");
             Guard.Against(whenHappen == DateTimeOffset.MinValue, "whenHappen", "DateTime is not specified.");
@@ -27,7 +27,7 @@ namespace luckybird
             get { return _eventDescriptor; }
         }
 
-        public IEnumerable<Event> Events
+        public IEnumerable<MaraphoneEvent> Events
         {
             get { return _events; }
         }

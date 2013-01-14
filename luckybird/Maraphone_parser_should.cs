@@ -155,10 +155,10 @@ namespace luckybird
             var expectedLine = new EventLine("c1-c2", DateTimeOffset.Parse("15:00"),
                 new[] 
                 {
-                    new Event("1", 1),
-                    new Event("2", 2),
-                    new Event("3", 3),
-                    new Event("4", 4),
+                    new MaraphoneEvent("1", 1),
+                    new MaraphoneEvent("2", 2),
+                    new MaraphoneEvent("3", 3),
+                    new MaraphoneEvent("4", 4),
                 });
 
 

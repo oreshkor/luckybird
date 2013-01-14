@@ -1,12 +1,12 @@
 ﻿namespace luckybird
 {
-    public class Event
+    public class MaraphoneEvent
     {
         public readonly string Type;
         public readonly double Coefficient;
         public readonly string Specification;
 
-        public Event(string type, double coefficient, string specification = "")
+        public MaraphoneEvent(string type, double coefficient, string specification = "")
         {
             Guard.Against(string.IsNullOrWhiteSpace(type), "type");
             

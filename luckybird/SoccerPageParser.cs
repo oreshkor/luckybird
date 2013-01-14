@@ -89,13 +89,13 @@ namespace luckybird
             return eventDate;
         }
 
-        static IEnumerable<Event> CreateBets(IEnumerable<string> eventsNames, IEnumerable<ParsedEventData> eventsData)
+        static IEnumerable<MaraphoneEvent> CreateBets(IEnumerable<string> eventsNames, IEnumerable<ParsedEventData> eventsData)
         {
             Debug.Assert(eventsNames.Count() == eventsData.Count(),
                          "Bets count and events count should match each other, but was " + eventsData.Count() + " vs " +
                          eventsNames.Count());
 
-            return eventsNames.Zip(eventsData, (name, data) => new Event(name, data.Coefficient, data.Specification));
+            return eventsNames.Zip(eventsData, (name, data) => new MaraphoneEvent(name, data.Coefficient, data.Specification));
         }
 
         IEnumerable<string> ParseEventsNamesForEvent(CQ dom)
